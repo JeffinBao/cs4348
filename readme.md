@@ -1,4 +1,4 @@
-﻿# Operating System Concepts Course Projects
+# Operating System Concepts Course Projects
 
 ## Project1 -- CPU & Memory
 ### Basic Information
@@ -35,17 +35,17 @@
 ### Algorithms Inplementation
 For this project, I started with the non-pre-emptive algorithms: FCFS(First Come First Serve), SPN(Shortest Process Next), HRRN(Highest Response Ratio Next), since these three algorithms are easier to implement. Then, I spent more time on the remaining three pre-emptive algorithms: RR(Round Robin), SRT(Shortest Remaining Time), FB(Feedback). I will briefly discuss how I developed all six algorithms.
 
-  - FCFS
+#### FCFS
 FCFS schedules different tasks according to their arrivals time. Since tasks’ arrival times are in ascending order, the program assigns tasks with earlier arrival times first. The interesting part of this algorithm is how to update the next task’s starting time. The program compares the current task's finish time with the next task's arrival time. If next task's arrival time is larger, update starting time to the next task's arrival time, otherwise, update starting time to the current task's finish time.
-  - SPN
+#### SPN
 SPN schedules different tasks according to their processing time. It will schedule the task with shortest processing time first. The program will select the next shorting processing time task once the current task finishes. During the seeking of the next task, the program compare the current time with the arrival time of unfinished tasks. If unfinished tasks don’t arrive yet, the task should not be assigned. The interesting part of this algorithm is that I used a Boolean array to store the status of the task. If a task finishes execution, the corresponding Boolean value will be updated to true.
-  - HRRN
+#### HRRN
 HRRN schedules different tasks according to their response ratio, which can be calculated by a formula, response ratio = (waiting time + service time) / service time. It will schedule the task with the highest response ratio first. The task selection process is quite similar with SPN algorithm except HRRN uses response ratio as the selection criteria.
-  - RR
+#### RR
 RR gives every task a slice of time to execute. Here the slice(quantum) is 1. When implementing RR algorithm, I used a queue to record the order of tasks. The task will execute in order. If the task doesn’t finish after execution of one time slice, it will re-join the queue waiting to be executed. However, if a new tasks arrives at the same time the current executing task times out, the new process is added to the tail of the queue and then the current unfinished process timing out is added behind it.
-  - SRT
+#### SRT
 SRT is the pre-emptive version of SPN. It may pre-empt a new arrival task if it’s remaining service time is smaller than the current task. Also, it will schedule the new task when current task finishes. However, if the new task doesn’t arrive yet, it will wait until the new task arrives. When implementing SRT algorithm, I kept a list of the remaining time of every tasks.
-  - FB
+#### FB
 FB assigns the newly arrival task to the highest-priority queue, after the current task is pre-empted to a new task, the current task will downgrade to the next level’s priority queue. However, after reaching the lowest-priority queue, it will not go back to the highest-priority queue. Every time the algorithm schedules a task, it will start to seek the task from the highest-priority queue to the lowest-priority queue. 
 
 After finishing the project, I found the most difficult and interesting part is to make the “idle timeslot” and “same arrival time of tasks” into consideration. The “idle timeslot” means if the current task finishes while the next task doesn’t arrive, the algorithm should keep the idle timeslot and wait the next task to arrive. The “same arrival time of tasks” means there maybe more than one task arrive at the same time. For this situation, RR and FB algorithm need to add the same arrival time tasks altogether into the task queue, otherwise one of the tasks may be omitted.
